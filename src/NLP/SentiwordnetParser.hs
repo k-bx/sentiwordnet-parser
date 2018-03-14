@@ -1,7 +1,7 @@
 {-# LANGUAGE ApplicativeDo #-}
 {-# LANGUAGE RecordWildCards #-}
 
-module Main
+module NLP.SentiwordnetParser
   ( parse
   , SentiWordNet(..)
   , Entry(..)
@@ -15,7 +15,7 @@ module Main
   , parseEntry
   , parseSynsetTerm
   , parseComment
-  , main
+  , test
   ) where
 
 import Control.Applicative
@@ -106,8 +106,8 @@ parseSentiWordNet = SentiWordNet <$> some parseEntry
 parse :: Text -> Result SentiWordNet
 parse = parseString parseSentiWordNet mempty . T.unpack
 
-main :: IO ()
-main = do
+test :: IO ()
+test = do
   sentiWordNet <-
     T.readFile
       "/home/kb/Downloads/SentiWordNet_3.0.0/SentiWordNet_3.0.0_20130122.txt"

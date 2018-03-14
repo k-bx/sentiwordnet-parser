@@ -1,4 +1,4 @@
-nname:                sentiwordnet-parser
+name:                sentiwordnet-parser
 version:             0.1.0.0
 synopsis:            Parser for the SentiWordNet tab-separated file
 description:         Parser for the SentiWordNet tab-separated file
@@ -7,7 +7,7 @@ license:             BSD3
 author:              Kostiantyn Rybnikov
 maintainer:          k-bx@k-bx.com
 copyright:           All Rights Reserved
-category:            Unclassified
+category:            Natural Language Processing
 extra-source-files:
 - README.md
 
@@ -21,8 +21,6 @@ dependencies:
   - string-class
   - vector
 
-executables:
-  sentiwordnet-parser:
-    source-dirs:      src
-    main:             Main.hs
-    ghc-options:      -Wall
+library:
+  source-dirs:      src
+  ghc-options:      -Wall
