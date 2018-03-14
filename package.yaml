@@ -12,9 +12,17 @@ extra-source-files:
 - README.md
 
 dependencies:
+  - trifecta
+  - parsers
   - base >= 4.7 && < 5
+  - Decimal
+  - text
+  - safe
+  - string-class
+  - vector
 
 executables:
   sentiwordnet-parser:
     source-dirs:      src
     main:             Main.hs
+    ghc-options:      -Wall
