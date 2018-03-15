@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e874425ac4cd0dc77602bc63619c082712827ce8371eec6e0646730a66c3bcd2
+-- hash: 644c8650efe5cb633fdc1652a5add3b50b6bad0ffbfbb7d6f524cf196032a351
 
 name:           sentiwordnet-parser
 version:        0.1.0.0
@@ -28,11 +28,13 @@ library
   build-depends:
       Decimal
     , base >=4.7 && <5
+    , hashable
     , parsers
     , safe
     , string-class
     , text
     , trifecta
+    , unordered-containers
     , vector
   exposed-modules:
       NLP.SentiwordnetParser

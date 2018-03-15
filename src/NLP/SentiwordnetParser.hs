@@ -1,5 +1,7 @@
 {-# LANGUAGE ApplicativeDo #-}
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 module NLP.SentiwordnetParser
   ( parse
@@ -7,6 +9,9 @@ module NLP.SentiwordnetParser
   , Entry(..)
   , SynsetTerm(..)
   , POS(..)
+  , SentiWordNetLookup
+  , SentiWordNetLookupItem(..)
+  , toSentiWordNetLookup
   -- * internal stuff
   , parseSentiWordNet
   , parsePOS
@@ -20,9 +25,13 @@ module NLP.SentiwordnetParser
 
 import Control.Applicative
 import Data.Decimal (Decimal)
+import qualified Data.HashMap.Strict as H
+import Data.Hashable (Hashable)
+import Data.Semigroup
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
+import GHC.Generics (Generic)
 import Safe
 import Text.Trifecta
 
@@ -37,7 +46,7 @@ data POS
   | Adjective
   | AdjectiveSatellite
   | Adverb
-  deriving (Show, Eq)
+  deriving (Show, Eq, Generic, Hashable)
 
 data Entry = Entry
   { pos :: POS
@@ -105,6 +114,24 @@ parseSentiWordNet = SentiWordNet <$> some parseEntry
 
 parse :: Text -> Result SentiWordNet
 parse = parseString parseSentiWordNet mempty . T.unpack
+
+data SentiWordNetLookupItem = SentiWordNetLookupItem
+  { lookPos :: Int
+  , lookPosScore :: Decimal
+  , lookNegScore :: Decimal
+  }
+
+-- | Datastructure for efficient 'lookupScoreByPosAndName' lookups
+type SentiWordNetLookup = H.HashMap (POS, Text) [SentiWordNetLookupItem]
+
+-- | Convert function
+toSentiWordNetLookup :: SentiWordNet -> SentiWordNetLookup
+toSentiWordNetLookup SentiWordNet {..} =
+  H.fromListWith (<>) (concatMap convEntry items)
+  where
+    convEntry Entry {..} = map (convTerm pos posScore negScore) synsetTerms
+    convTerm pos posScore negScore SynsetTerm {..} =
+      ((pos, name), [SentiWordNetLookupItem num posScore negScore])
 
 test :: IO ()
 test = do
