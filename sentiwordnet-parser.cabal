@@ -2,10 +2,10 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 644c8650efe5cb633fdc1652a5add3b50b6bad0ffbfbb7d6f524cf196032a351
+-- hash: 63064a8cda681a9767f685c20005f0e6b1064bb63bcb35c21169b4a0eb432ddf
 
 name:           sentiwordnet-parser
-version:        0.1.0.0
+version:        0.1.1.0
 synopsis:       Parser for the SentiWordNet tab-separated file
 description:    Parser for the SentiWordNet tab-separated file
 category:       Natural Language Processing
