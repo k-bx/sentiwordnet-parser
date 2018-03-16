@@ -18,7 +18,8 @@ before_install:
 matrix:
   include:
     - env: GHCVER=8.2.2 STACK_YAML=stack.yaml
-      addons: {apt: {packages: [ghc-8.2.2],sources: [hvr-ghc]}}
+      addons: {apt: {packages: []}}
+      # addons: {apt: {packages: [ghc-8.2.2],sources: [hvr-ghc]}}
 
 install:
   - stack --no-terminal --skip-ghc-check setup
