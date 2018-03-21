@@ -112,8 +112,11 @@ parseComment = char '#' *> many (noneOf ['\n']) <* optional newline
 parseSentiWordNet :: Parser SentiWordNet
 parseSentiWordNet = SentiWordNet <$> some parseEntry
 
-parse :: Text -> Result SentiWordNet
-parse = parseString parseSentiWordNet mempty . T.unpack
+parse :: Text -> Either String SentiWordNet
+parse t =
+  case parseString parseSentiWordNet mempty . T.unpack $ t of
+    Failure e -> Left (show e)
+    Success r -> Right r
 
 data SentiWordNetLookupItem = SentiWordNetLookupItem
   { lookPos :: Int
@@ -140,5 +143,5 @@ test = do
       "/home/kb/Downloads/SentiWordNet_3.0.0/SentiWordNet_3.0.0_20130122.txt"
   let res = parse sentiWordNet
   case res of
-    Success r -> print (length (items r))
-    Failure e -> print e
+    Right r -> print (length (items r))
+    Left e -> putStrLn e
